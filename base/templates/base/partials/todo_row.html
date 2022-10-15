@@ -1,0 +1,56 @@
+<tr id="task-row-{{task.id}}">
+
+    
+
+    {% if task.status == Status.DONE %}
+    <td>
+        
+        
+        <del class="deleted" >{{task.title}}</del>
+    </td>
+    {% else %}
+    <td>
+        
+        <a class="text" href="{% url 'task-update' task.id%}">{{task}}</a></td>
+    <!-- <td>{{task.title}}</td> -->
+    {% endif %}
+
+    <td>
+        {% if task.status == Status.TODO %}
+        <div class="btn btn-danger border">To Do</div>
+        {% else %}
+        <a class="btn btn-light border" href="{% url 'update_status' task.id Status.TODO %}">To Do</a>
+        {% endif %}
+
+        {% if task.status == Status.DOING %}
+        <div class="btn btn-primary border">Doing</div>
+        {% else %}
+        <a class="btn btn-light border" href="{% url 'update_status' task.id Status.DOING %}">Doing</a>
+        {% endif %}
+
+        {% if task.status == Status.DONE %}
+        <div class="btn btn-success border">Done</div>
+        {% else %}
+        <a class="btn btn-light border" href="{% url 'update_status' task.id Status.DONE %}">Done</a>
+        {% endif %}
+
+    </td>
+    <td>
+        {% if task.is_end_date %}
+        <div class="red due">{{task.due_date}}</div>
+        {% else%}
+        <div class="due">{{task.due_date}}</div>
+        {% endif %}
+        
+       
+    </td>
+    <td>
+        <a class="cross m-2">
+            <a class="m-2" href="{% url 'delete' task.id %}">
+            <i class="link-dark  delete-link bi-x-lg"></i></a>
+            
+        </a>
+    </td>
+</tr>
+
+

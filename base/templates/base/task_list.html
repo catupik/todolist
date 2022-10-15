@@ -1,0 +1,112 @@
+{% extends 'base/main.html' %}
+{% block content %}
+
+
+<div class="header-bar">
+    <div>
+        <h1>Hello {{request.user|title}}</h1>
+        <h3 style="margin:0">You have {{count}} incomplete task{{ count|pluralize:"s" }}</h3>    
+    </div>
+
+
+    {% if request.user.is_authenticated %}
+    
+    <a href="{% url 'logout' %}">Logout</a>
+    <!-- <a href="{ %url 'logout'% }">Logout</a> -->
+
+    {% else %}
+    <a href="{% url 'login' %}">Login</a> 
+    {% endif %}   
+</div>
+
+<!-- <h1>My to Do List</h1> -->
+
+<div id="search-add-wrapper">
+    <form method="GET" style="margin-top: 20px ; display: flex">
+        <input type="text" name="search-area" value="{{search_input}}">
+        <input style="margin-left: 10px ;" class="button" type="submit" value="Search">
+    </form>
+    <!-- <a id="add-link" href="{% url 'task-create' %}">&#x2b</a> -->
+    <a id="add-link" class="m-2" href="{% url 'task-create' %}">
+        <i class="bi bi-plus-lg"></i></a>
+</div>
+
+
+<hr>
+
+<!-- <div>
+    {% for category in categories %}
+    <a href=" {% url 'main'%}?category={{ category.name }} " class="btn btn-secondary col-2">{{category.name}}</a>
+    {% endfor %}
+</div> -->
+
+<section class="card p-4">
+
+    <ul id="tabs" class="nav nav-pills mb-4 pb-2">
+        <li class="nav-item">
+            {% if 'status' not in request.GET %}
+            <a class="nav-link active "  href="{% url 'tasks' %}">All</a>
+            {% else %}
+            <a class="nav-link  "  href="{% url 'tasks' %}">All</a>
+            {% endif %}
+        </li>
+        <li class="nav-item">
+            {% if request.GET.status == 'TODO' %}
+            <a class="nav-link active" href="{% url 'tasks' %}?status=TODO" >To Do</a>
+            {% else %}
+            <a class="nav-link" href="{% url 'tasks' %}?status=TODO" >To Do</a>
+            {% endif %}
+        </li>
+        <li class="nav-item">
+            {% if request.GET.status == 'DOING' %}
+            <a class="nav-link active" href="{% url 'tasks' %}?status=DOING" >Doing</a>
+            {% else %}
+            <a class="nav-link" href="{% url 'tasks' %}?status=DOING" >Doing</a>
+            {% endif %}
+        </li>
+        <li class="nav-item">
+            {% if request.GET.status == 'DONE' %}
+            <a class="nav-link active" href="{% url 'tasks' %}?status=DONE" >Done</a>
+            {% else %}
+            <a class="nav-link" href="{% url 'tasks' %}?status=DONE" >Done</a>
+            {% endif %}
+        </li>
+    </ul>
+
+    <section id="todo-list">
+        {% include 'base/partials/todo_list.html' %}
+    </section>
+
+</section>
+    
+
+    <!-- {% for task in tasks %}
+        <div class="task-wrapper">
+            {% if task.complete %}
+                <div class="task-title">
+                    <div class="task-complete-icon"></div>
+                    <i><s><a href="{% url 'task-update' task.id%}">{{task}}</a></s></i>
+                    {{task.status}}, {{task.due_date}}
+                </div>
+                <a class="add-link" href="{% url 'task-delete' task.id %}">&#215;</a>
+
+            {% else %}
+            <div class="task-title">
+                <div class="task-incomplete-icon"></div>
+                <a href="{% url 'task-update' task.id%}">{{task}}</a>
+                {{task.status}}, {{task.due_date}}
+            </div>
+            <a class="delete-link" href="{% url 'task-delete' task.id %}">&#215;</a>
+
+            {% endif %}
+        </div>
+    
+        {% empty %} -->
+    <h3>no items in list</h3>
+    {% endfor %}
+</div>
+
+
+
+{% endblock content %}
+
