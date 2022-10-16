@@ -44,6 +44,6 @@ class Task(models.Model):
         ordering = ['due_date']    
 
     @staticmethod
-    def get_incomplete_count():
-        return Task.objects.filter(~Q(status=Task.StatusChoice.DONE)).count()
+    def get_incomplete():
+        return Task.objects.filter(~Q(status=Task.StatusChoice.DONE))
         
